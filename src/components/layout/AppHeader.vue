@@ -34,6 +34,43 @@
       <div class="header-actions">
         <ThemeToggle />
 
+        <button class="action-btn notif-btn" @click="showNotifs = !showNotifs">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+            <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+          </svg>
+          <span class="notif-badge">2</span>
+        </button>
+
+        <div v-if="showNotifs" class="notif-dropdown">
+          <div class="notif-header">
+            <span>الاشعارات</span>
+            <button @click="showNotifs = false" class="notif-close">✕</button>
+          </div>
+          <div class="notif-item unread">
+            <div class="notif-icon">🛒</div>
+            <div class="notif-content">
+              <p>تم تأكيد طلبك #1234</p>
+              <span>منذ 5 دقائق</span>
+            </div>
+          </div>
+          <div class="notif-item unread">
+            <div class="notif-icon">🎉</div>
+            <div class="notif-content">
+              <p>عرض خاص - خصم 20% على الهواتف</p>
+              <span>منذ ساعة</span>
+            </div>
+          </div>
+          <div class="notif-item">
+            <div class="notif-icon">📦</div>
+            <div class="notif-content">
+              <p>طلبك جاهز للتوصيل</p>
+              <span>منذ يوم</span>
+            </div>
+          </div>
+          <div class="notif-empty" v-if="false">لا توجد اشعارات جديدة</div>
+        </div>
+
         <router-link to="/cart" class="action-btn cart-btn">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
@@ -78,6 +115,7 @@ const productStore = useProductStore()
 const searchQuery = ref('')
 const searchFocused = ref(false)
 const isScrolled = ref(false)
+const showNotifs = ref(false)
 
 function handleSearch() {
   productStore.searchQuery = searchQuery.value
@@ -224,6 +262,101 @@ onUnmounted(() => window.removeEventListener('scroll', onScroll))
   padding: 0 4px;
 }
 
+.notif-btn {
+  position: relative;
+}
+
+.notif-badge {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  min-width: 18px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #ef4444;
+  color: #fff;
+  font-size: 0.65rem;
+  font-weight: 700;
+  border-radius: var(--radius-full);
+  padding: 0 4px;
+}
+
+.notif-dropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  width: 320px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  z-index: 200;
+  overflow: hidden;
+}
+
+.notif-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--border-light);
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+
+.notif-close {
+  color: var(--text-muted);
+  font-size: 1rem;
+}
+
+.notif-close:hover {
+  color: var(--text-primary);
+}
+
+.notif-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--border-light);
+  transition: background var(--transition-fast);
+}
+
+.notif-item:hover {
+  background: var(--bg-card-hover);
+}
+
+.notif-item.unread {
+  background: rgba(212, 168, 67, 0.05);
+}
+
+.notif-icon {
+  font-size: 1.5rem;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.notif-content p {
+  font-size: 0.85rem;
+  color: var(--text-primary);
+  margin-bottom: 4px;
+  line-height: 1.4;
+}
+
+.notif-content span {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.notif-empty {
+  padding: 32px 16px;
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
 @media (max-width: 768px) {
   .search-bar {
     display: none;
@@ -235,6 +368,11 @@ onUnmounted(() => window.removeEventListener('scroll', onScroll))
 
   .app-header {
     padding: 0 8px;
+  }
+
+  .notif-dropdown {
+    width: calc(100vw - 16px);
+    left: -16px;
   }
 }
 </style>
