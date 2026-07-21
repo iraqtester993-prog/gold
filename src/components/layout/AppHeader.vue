@@ -1,14 +1,20 @@
 <template>
   <header class="app-header" :class="{ scrolled: isScrolled }">
     <div class="container header-content">
-      <router-link to="/" class="logo">
+      <router-link to="/home" class="logo">
         <div class="logo-icon">
           <svg viewBox="0 0 40 40" width="36" height="36">
-            <rect x="4" y="4" width="14" height="14" rx="2" fill="var(--color-gold)" opacity="0.8"/>
-            <rect x="22" y="4" width="14" height="14" rx="2" fill="var(--color-gold)" opacity="0.6"/>
-            <rect x="4" y="22" width="14" height="14" rx="2" fill="var(--color-gold)" opacity="0.6"/>
-            <rect x="22" y="22" width="14" height="14" rx="2" fill="var(--color-gold)" opacity="0.4"/>
-            <rect x="13" y="13" width="14" height="14" rx="2" fill="var(--color-gold)"/>
+            <defs>
+              <linearGradient id="logoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" style="stop-color:#D4A843;stop-opacity:1"/>
+                <stop offset="100%" style="stop-color:#F0D078;stop-opacity:1"/>
+              </linearGradient>
+            </defs>
+            <rect x="4" y="4" width="14" height="14" rx="3" fill="url(#logoGrad)" opacity="0.85"/>
+            <rect x="22" y="4" width="14" height="14" rx="3" fill="url(#logoGrad)" opacity="0.65"/>
+            <rect x="4" y="22" width="14" height="14" rx="3" fill="url(#logoGrad)" opacity="0.65"/>
+            <rect x="22" y="22" width="14" height="14" rx="3" fill="url(#logoGrad)" opacity="0.45"/>
+            <rect x="13" y="13" width="14" height="14" rx="3" fill="url(#logoGrad)"/>
           </svg>
         </div>
         <div class="logo-text">
@@ -34,42 +40,15 @@
       <div class="header-actions">
         <ThemeToggle />
 
-        <button class="action-btn notif-btn" @click="showNotifs = !showNotifs">
+        <button class="action-btn notif-btn" @click="goToNotifs">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
             <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
           </svg>
-          <span class="notif-badge">2</span>
+          <span v-if="notificationStore.unreadCount > 0" class="notif-badge">
+            {{ notificationStore.unreadCount }}
+          </span>
         </button>
-
-        <div v-if="showNotifs" class="notif-dropdown">
-          <div class="notif-header">
-            <span>الاشعارات</span>
-            <button @click="showNotifs = false" class="notif-close">✕</button>
-          </div>
-          <div class="notif-item unread">
-            <div class="notif-icon">🛒</div>
-            <div class="notif-content">
-              <p>تم تأكيد طلبك #1234</p>
-              <span>منذ 5 دقائق</span>
-            </div>
-          </div>
-          <div class="notif-item unread">
-            <div class="notif-icon">🎉</div>
-            <div class="notif-content">
-              <p>عرض خاص - خصم 20% على الهواتف</p>
-              <span>منذ ساعة</span>
-            </div>
-          </div>
-          <div class="notif-item">
-            <div class="notif-icon">📦</div>
-            <div class="notif-content">
-              <p>طلبك جاهز للتوصيل</p>
-              <span>منذ يوم</span>
-            </div>
-          </div>
-          <div class="notif-empty" v-if="false">لا توجد اشعارات جديدة</div>
-        </div>
 
         <router-link to="/cart" class="action-btn cart-btn">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -79,20 +58,6 @@
           <span v-if="cartStore.totalItems > 0" class="cart-badge">
             {{ cartStore.totalItems }}
           </span>
-        </router-link>
-
-        <router-link v-if="authStore.isLoggedIn" to="/profile" class="action-btn">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
-            <circle cx="12" cy="7" r="4"/>
-          </svg>
-        </router-link>
-        <router-link v-else to="/login" class="action-btn">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/>
-            <polyline points="10 17 15 12 10 7"/>
-            <line x1="15" y1="12" x2="3" y2="12"/>
-          </svg>
         </router-link>
       </div>
     </div>
@@ -105,23 +70,28 @@ import { useRouter } from 'vue-router'
 import { useCartStore } from '../../stores/cartStore'
 import { useAuthStore } from '../../stores/authStore'
 import { useProductStore } from '../../stores/productStore'
+import { useNotificationStore } from '../../stores/notificationStore'
 import ThemeToggle from '../common/ThemeToggle.vue'
 
 const router = useRouter()
 const cartStore = useCartStore()
 const authStore = useAuthStore()
 const productStore = useProductStore()
+const notificationStore = useNotificationStore()
 
 const searchQuery = ref('')
 const searchFocused = ref(false)
 const isScrolled = ref(false)
-const showNotifs = ref(false)
 
 function handleSearch() {
   productStore.searchQuery = searchQuery.value
   if (searchQuery.value && router.currentRoute.value.name !== 'products') {
     router.push('/products')
   }
+}
+
+function goToNotifs() {
+  router.push('/notifications')
 }
 
 function onScroll() {
@@ -147,8 +117,8 @@ onUnmounted(() => window.removeEventListener('scroll', onScroll))
 
 .app-header.scrolled {
   box-shadow: var(--shadow-md);
-  background: var(--bg-overlay);
-  backdrop-filter: blur(12px);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
 }
 
 .header-content {
@@ -163,12 +133,18 @@ onUnmounted(() => window.removeEventListener('scroll', onScroll))
   align-items: center;
   gap: 10px;
   flex-shrink: 0;
+  text-decoration: none;
 }
 
 .logo-icon {
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: transform var(--transition-fast);
+}
+
+.logo:hover .logo-icon {
+  transform: rotate(-4deg) scale(1.05);
 }
 
 .logo-text {
@@ -181,6 +157,10 @@ onUnmounted(() => window.removeEventListener('scroll', onScroll))
   font-weight: 800;
   color: var(--color-gold);
   line-height: 1.2;
+  background: var(--color-gold-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .logo-tagline {
@@ -205,17 +185,26 @@ onUnmounted(() => window.removeEventListener('scroll', onScroll))
 .search-bar.focused {
   border-color: var(--color-gold);
   box-shadow: 0 0 0 3px rgba(212, 168, 67, 0.1);
+  background: var(--bg-card);
 }
 
 .search-icon {
   color: var(--text-muted);
   flex-shrink: 0;
+  transition: color var(--transition-fast);
+}
+
+.search-bar.focused .search-icon {
+  color: var(--color-gold);
 }
 
 .search-bar input {
   flex: 1;
   color: var(--text-primary);
   font-size: 0.9rem;
+  background: none;
+  border: none;
+  outline: none;
 }
 
 .search-bar input::placeholder {
@@ -225,7 +214,7 @@ onUnmounted(() => window.removeEventListener('scroll', onScroll))
 .header-actions {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 4px;
 }
 
 .action-btn {
@@ -238,6 +227,7 @@ onUnmounted(() => window.removeEventListener('scroll', onScroll))
   border-radius: var(--radius-full);
   color: var(--text-secondary);
   transition: all var(--transition-fast);
+  text-decoration: none;
 }
 
 .action-btn:hover {
@@ -260,6 +250,7 @@ onUnmounted(() => window.removeEventListener('scroll', onScroll))
   font-weight: 700;
   border-radius: var(--radius-full);
   padding: 0 4px;
+  animation: badgePop 0.3s ease;
 }
 
 .notif-btn {
@@ -281,80 +272,13 @@ onUnmounted(() => window.removeEventListener('scroll', onScroll))
   font-weight: 700;
   border-radius: var(--radius-full);
   padding: 0 4px;
+  animation: badgePop 0.3s ease;
 }
 
-.notif-dropdown {
-  position: absolute;
-  top: calc(100% + 8px);
-  left: 0;
-  width: 320px;
-  background: var(--bg-secondary);
-  border: 1px solid var(--border-light);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-lg);
-  z-index: 200;
-  overflow: hidden;
-}
-
-.notif-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 14px 16px;
-  border-bottom: 1px solid var(--border-light);
-  font-weight: 700;
-  font-size: 0.95rem;
-}
-
-.notif-close {
-  color: var(--text-muted);
-  font-size: 1rem;
-}
-
-.notif-close:hover {
-  color: var(--text-primary);
-}
-
-.notif-item {
-  display: flex;
-  align-items: flex-start;
-  gap: 12px;
-  padding: 14px 16px;
-  border-bottom: 1px solid var(--border-light);
-  transition: background var(--transition-fast);
-}
-
-.notif-item:hover {
-  background: var(--bg-card-hover);
-}
-
-.notif-item.unread {
-  background: rgba(212, 168, 67, 0.05);
-}
-
-.notif-icon {
-  font-size: 1.5rem;
-  flex-shrink: 0;
-  margin-top: 2px;
-}
-
-.notif-content p {
-  font-size: 0.85rem;
-  color: var(--text-primary);
-  margin-bottom: 4px;
-  line-height: 1.4;
-}
-
-.notif-content span {
-  font-size: 0.75rem;
-  color: var(--text-muted);
-}
-
-.notif-empty {
-  padding: 32px 16px;
-  text-align: center;
-  color: var(--text-muted);
-  font-size: 0.9rem;
+@keyframes badgePop {
+  0% { transform: scale(0); }
+  70% { transform: scale(1.2); }
+  100% { transform: scale(1); }
 }
 
 @media (max-width: 768px) {
@@ -368,11 +292,6 @@ onUnmounted(() => window.removeEventListener('scroll', onScroll))
 
   .app-header {
     padding: 0 8px;
-  }
-
-  .notif-dropdown {
-    width: calc(100vw - 16px);
-    left: -16px;
   }
 }
 </style>

@@ -1,14 +1,14 @@
 <template>
   <div id="app" :data-theme="theme">
-    <AppHeader v-if="!hideHeader" />
-    <main class="main-content" :class="{ 'no-header': hideHeader }">
+    <AppHeader v-if="!hideLayout" />
+    <main class="main-content" :class="{ 'no-header': hideLayout }">
       <router-view v-slot="{ Component }">
         <transition name="fade" mode="out-in">
           <component :is="Component" />
         </transition>
       </router-view>
     </main>
-    <MobileNav v-if="!hideHeader" />
+    <BottomNav v-if="!hideLayout" />
     <CartDrawer />
   </div>
 </template>
@@ -18,14 +18,16 @@ import { computed, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { useThemeStore } from './stores/themeStore'
 import AppHeader from './components/layout/AppHeader.vue'
-import MobileNav from './components/layout/MobileNav.vue'
+import BottomNav from './components/layout/BottomNav.vue'
 import CartDrawer from './components/cart/CartDrawer.vue'
 
 const route = useRoute()
 const themeStore = useThemeStore()
 
 const theme = computed(() => themeStore.currentTheme)
-const hideHeader = computed(() => ['login', 'register'].includes(route.name))
+const hideLayout = computed(() =>
+  ['splash', 'welcome', 'login', 'register'].includes(route.name)
+)
 
 onMounted(() => {
   themeStore.initTheme()

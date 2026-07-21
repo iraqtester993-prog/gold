@@ -4,7 +4,7 @@ import { viteSingleFile } from 'vite-plugin-singlefile'
 import { fileURLToPath, URL } from 'node:url'
 
 export default defineConfig({
-  base: '',
+  base: '/gold/',
   plugins: [
     vue(),
     viteSingleFile()
