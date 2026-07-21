@@ -4,7 +4,7 @@ import { VitePWA } from 'vite-plugin-pwa'
 import { fileURLToPath, URL } from 'node:url'
 
 export default defineConfig({
-  base: '/gold/',
+  base: './',
   plugins: [
     vue(),
     VitePWA({
@@ -20,7 +20,7 @@ export default defineConfig({
         orientation: 'portrait',
         dir: 'rtl',
         lang: 'ar',
-        start_url: '/gold/',
+        start_url: './',
         icons: [
           {
             src: 'icon-192.png',
