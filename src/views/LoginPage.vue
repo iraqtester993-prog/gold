@@ -3,7 +3,13 @@
     <div class="login-container">
       <div class="login-header">
         <div class="logo-pulse">
-          <img src="/logo.png" alt="العصر الذهبي" class="login-logo-img" />
+          <svg viewBox="0 0 60 60" width="70" height="70">
+            <rect x="6" y="6" width="21" height="21" rx="4" fill="var(--color-gold)" opacity="0.8"/>
+            <rect x="33" y="6" width="21" height="21" rx="4" fill="var(--color-gold)" opacity="0.6"/>
+            <rect x="6" y="33" width="21" height="21" rx="4" fill="var(--color-gold)" opacity="0.6"/>
+            <rect x="33" y="33" width="21" height="21" rx="4" fill="var(--color-gold)" opacity="0.4"/>
+            <rect x="19" y="19" width="22" height="22" rx="4" fill="var(--color-gold)"/>
+          </svg>
         </div>
         <h1 class="brand-name">العصر الذهبي</h1>
         <p class="brand-tagline">أجهزة إلكترونية - تقسيط مريح</p>
@@ -181,11 +187,6 @@ function handleBiometric() {
 .logo-pulse {
   margin-bottom: 12px;
   animation: pulse 2s infinite;
-}
-.login-logo-img {
-  width: 120px;
-  height: auto;
-  object-fit: contain;
 }
 @keyframes pulse {
   0%, 100% { transform: scale(1); }

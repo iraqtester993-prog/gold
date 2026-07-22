@@ -8,7 +8,7 @@
       </div>
 
       <div class="header-title" @click="$router.push('/home')">
-        <img src="/logo.png" alt="العصر الذهبي" class="logo-img" />
+        <span class="logo-name">العصر الذهبي</span>
       </div>
 
       <div class="header-actions">
@@ -126,15 +126,13 @@ defineExpose({ toggleSearch })
   cursor: pointer;
 }
 
-.logo-img {
-  height: 40px;
-  width: auto;
-  object-fit: contain;
-  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.2));
-}
-
-.dark .logo-img {
-  filter: drop-shadow(0 1px 3px rgba(212, 175, 55, 0.3));
+.logo-name {
+  font-size: 1.1rem;
+  font-weight: 800;
+  background: var(--color-gold-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .header-actions {
