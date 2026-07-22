@@ -2,13 +2,7 @@
   <div class="splash-screen" :class="{ fadeOut: isFading }">
     <div class="splash-content">
       <div class="splash-logo" :class="{ animate: logoVisible }">
-        <svg viewBox="0 0 80 80" width="100" height="100">
-          <rect x="8" y="8" width="28" height="28" rx="6" fill="var(--color-gold)" opacity="0.8"/>
-          <rect x="44" y="8" width="28" height="28" rx="6" fill="var(--color-gold)" opacity="0.6"/>
-          <rect x="8" y="44" width="28" height="28" rx="6" fill="var(--color-gold)" opacity="0.6"/>
-          <rect x="44" y="44" width="28" height="28" rx="6" fill="var(--color-gold)" opacity="0.4"/>
-          <rect x="26" y="26" width="28" height="28" rx="6" fill="var(--color-gold)"/>
-        </svg>
+        <img src="/logo.png" alt="العصر الذهبي" class="splash-logo-img" />
       </div>
       <h1 class="splash-title" :class="{ animate: titleVisible }">العصر الذهبي</h1>
       <p class="splash-subtitle" :class="{ animate: subtitleVisible }">أجهزة إلكترونية - تقسيط مريح</p>
@@ -74,6 +68,11 @@ onMounted(() => {
 .splash-logo.animate {
   opacity: 1;
   transform: scale(1);
+}
+.splash-logo-img {
+  width: 160px;
+  height: auto;
+  object-fit: contain;
 }
 .splash-title {
   font-size: 2.2rem;

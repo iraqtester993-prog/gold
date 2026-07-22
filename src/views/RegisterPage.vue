@@ -2,13 +2,7 @@
   <div class="register-page">
     <div class="register-container">
       <div class="register-header">
-        <svg viewBox="0 0 60 60" width="60" height="60">
-          <rect x="6" y="6" width="21" height="21" rx="4" fill="var(--color-gold)" opacity="0.8"/>
-          <rect x="33" y="6" width="21" height="21" rx="4" fill="var(--color-gold)" opacity="0.6"/>
-          <rect x="6" y="33" width="21" height="21" rx="4" fill="var(--color-gold)" opacity="0.6"/>
-          <rect x="33" y="33" width="21" height="21" rx="4" fill="var(--color-gold)" opacity="0.4"/>
-          <rect x="19" y="19" width="22" height="22" rx="4" fill="var(--color-gold)"/>
-        </svg>
+        <img src="/logo.png" alt="العصر الذهبي" class="register-logo-img" />
         <h1 class="brand-name">العصر الذهبي</h1>
         <p class="brand-tagline">انشئ حسابك وتسوق الآن</p>
       </div>
@@ -122,6 +116,7 @@ async function handleRegister() {
   gap: 20px;
 }
 .register-header { text-align: center; }
+.register-logo-img { width: 110px; height: auto; object-fit: contain; }
 .brand-name { font-size: 2rem; font-weight: 900; color: var(--color-gold); margin: 8px 0 4px; }
 .brand-tagline { color: var(--text-secondary); font-size: 0.9rem; }
 .register-card {

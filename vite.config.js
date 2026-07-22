@@ -9,7 +9,7 @@ export default defineConfig({
     vue(),
     VitePWA({
       registerType: 'autoUpdate',
-      includeAssets: ['favicon.svg', 'icons.svg'],
+      includeAssets: ['logo.png', 'favicon-192.png', 'favicon-512.png'],
       manifest: {
         name: 'العصر الذهبي - أجهزة إلكترونية',
         short_name: 'العصر الذهبي',
@@ -24,9 +24,15 @@ export default defineConfig({
         scope: '/gold/',
         icons: [
           {
-            src: 'icons.svg',
-            sizes: 'any',
-            type: 'image/svg+xml',
+            src: 'favicon-192.png',
+            sizes: '192x192',
+            type: 'image/png',
+            purpose: 'any'
+          },
+          {
+            src: 'favicon-512.png',
+            sizes: '512x512',
+            type: 'image/png',
             purpose: 'any maskable'
           }
         ]

@@ -1,6 +1,9 @@
 <template>
   <div class="welcome-page">
     <div class="welcome-content">
+      <div class="welcome-logo">
+        <img src="/logo.png" alt="العصر الذهبي" class="welcome-logo-img" />
+      </div>
       <div class="welcome-slides">
         <div class="slides-track" :style="{ transform: `translateX(${currentSlide * 100}%)` }">
           <div v-for="(slide, i) in slides" :key="i" class="welcome-slide">
@@ -92,6 +95,15 @@ function continueAsGuest() {
   flex-direction: column;
   align-items: center;
   gap: 32px;
+}
+.welcome-logo {
+  text-align: center;
+}
+.welcome-logo-img {
+  width: 140px;
+  height: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 8px rgba(212, 175, 55, 0.3));
 }
 .welcome-slides {
   width: 100%;

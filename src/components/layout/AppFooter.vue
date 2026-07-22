@@ -4,14 +4,7 @@
       <div class="footer-grid">
         <div class="footer-section">
           <div class="footer-logo">
-            <svg viewBox="0 0 40 40" width="32" height="32">
-              <rect x="4" y="4" width="14" height="14" rx="2" fill="var(--color-gold)" opacity="0.8"/>
-              <rect x="22" y="4" width="14" height="14" rx="2" fill="var(--color-gold)" opacity="0.6"/>
-              <rect x="4" y="22" width="14" height="14" rx="2" fill="var(--color-gold)" opacity="0.6"/>
-              <rect x="22" y="22" width="14" height="14" rx="2" fill="var(--color-gold)" opacity="0.4"/>
-              <rect x="13" y="13" width="14" height="14" rx="2" fill="var(--color-gold)"/>
-            </svg>
-            <span class="footer-brand">العصر الذهبي</span>
+            <img src="/logo.png" alt="العصر الذهبي" class="footer-logo-img" />
           </div>
           <p class="footer-desc">متجر الأجهزة الإلكترونية - تسوق بالقسط والحاضر بالدينار العراقي</p>
         </div>
@@ -88,6 +81,11 @@ const currentYear = new Date().getFullYear()
   align-items: center;
   gap: 10px;
   margin-bottom: 12px;
+}
+.footer-logo-img {
+  height: 50px;
+  width: auto;
+  object-fit: contain;
 }
 
 .footer-brand {
