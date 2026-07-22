@@ -79,6 +79,25 @@
                   <label>تاريخ الميلاد <span class="required">*</span></label>
                   <input v-model="form.birthDate" type="date" class="form-input" />
                 </div>
+                <div class="form-row">
+                  <div class="form-group">
+                    <label>أقساط سابقة؟ <span class="required">*</span></label>
+                    <div class="toggle-group">
+                      <button type="button" class="toggle-btn" :class="{ active: form.previousInstallments === true }" @click="form.previousInstallments = true">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                        نعم
+                      </button>
+                      <button type="button" class="toggle-btn" :class="{ active: form.previousInstallments === false }" @click="form.previousInstallments = false">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                        لا
+                      </button>
+                    </div>
+                  </div>
+                  <div class="form-group" v-if="form.previousInstallments">
+                    <label>عدد الأقساط السابقة</label>
+                    <input v-model="form.previousInstallmentCount" type="number" class="form-input" placeholder="العدد" dir="ltr" />
+                  </div>
+                </div>
               </template>
 
               <template v-if="currentStep === 2">
@@ -283,6 +302,38 @@
                       <span>التوقيع</span>
                     </div>
                   </div>
+
+                  <div class="upload-card" @click="triggerUpload('departmentId')">
+                    <input :ref="el => uploadRefs.departmentId = el" type="file" accept="image/*" class="hidden-input" @change="handleFile($event, 'departmentId')" />
+                    <div v-if="uploads.departmentId" class="upload-preview">
+                      <img :src="uploads.departmentId" alt="هوية الدائرة" />
+                      <button class="remove-upload" @click.stop="uploads.departmentId = null">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                      </button>
+                    </div>
+                    <div v-else class="upload-placeholder">
+                      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" stroke-width="1.5">
+                        <rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
+                      </svg>
+                      <span>هوية الدائرة</span>
+                    </div>
+                  </div>
+
+                  <div class="upload-card" @click="triggerUpload('residenceCard')">
+                    <input :ref="el => uploadRefs.residenceCard = el" type="file" accept="image/*" class="hidden-input" @change="handleFile($event, 'residenceCard')" />
+                    <div v-if="uploads.residenceCard" class="upload-preview">
+                      <img :src="uploads.residenceCard" alt="بطاقة السكن" />
+                      <button class="remove-upload" @click.stop="uploads.residenceCard = null">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                      </button>
+                    </div>
+                    <div v-else class="upload-placeholder">
+                      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" stroke-width="1.5">
+                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>
+                      </svg>
+                      <span>بطاقة السكن</span>
+                    </div>
+                  </div>
                 </div>
               </template>
 
@@ -312,6 +363,10 @@
                     <div class="review-item">
                       <span class="review-label">رقم الهوية</span>
                       <span class="review-value" dir="ltr">{{ form.nationalId || '—' }}</span>
+                    </div>
+                    <div class="review-item">
+                      <span class="review-label">أقساط سابقة</span>
+                      <span class="review-value">{{ form.previousInstallments ? 'نعم' : 'لا' }}{{ form.previousInstallments && form.previousInstallmentCount ? ` (${form.previousInstallmentCount} قسط)` : '' }}</span>
                     </div>
                   </div>
                 </div>
@@ -478,7 +533,9 @@ const uploadRefs = reactive({
   idFront: null,
   idBack: null,
   personalPhoto: null,
-  signature: null
+  signature: null,
+  departmentId: null,
+  residenceCard: null
 })
 
 const form = reactive({
@@ -487,6 +544,8 @@ const form = reactive({
   email: '',
   nationalId: '',
   birthDate: '',
+  previousInstallments: false,
+  previousInstallmentCount: '',
   employerName: '',
   employerCode: '',
   salary: '',
@@ -505,7 +564,9 @@ const uploads = reactive({
   idFront: null,
   idBack: null,
   personalPhoto: null,
-  signature: null
+  signature: null,
+  departmentId: null,
+  residenceCard: null
 })
 
 function triggerUpload(key) {
@@ -800,6 +861,11 @@ select.form-input {
 .select-wrapper {
   position: relative;
 }
+
+.toggle-group { display: flex; gap: 10px; }
+.toggle-btn { flex: 1; display: flex; align-items: center; justify-content: center; gap: 6px; padding: 12px 16px; background: var(--bg-input); border: 2px solid transparent; border-radius: var(--radius-md); font-family: 'Cairo', sans-serif; font-size: 0.9rem; font-weight: 600; color: var(--text-secondary); cursor: pointer; transition: all var(--transition-fast); }
+.toggle-btn:hover { border-color: var(--border-color); }
+.toggle-btn.active { border-color: var(--color-gold); background: rgba(212, 168, 67, 0.08); color: var(--color-gold); }
 
 /* Upload Grid */
 .uploads-grid {

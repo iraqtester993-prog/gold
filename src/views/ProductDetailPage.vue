@@ -29,7 +29,7 @@
 
       <div class="detail-grid">
         <div class="gallery-section">
-          <div class="main-image-wrapper">
+          <div class="main-image-wrapper" @click="openGallery">
             <img :src="activeImage" :alt="product.name" class="main-image" />
             <div class="image-badges">
               <span v-if="product.isNew" class="badge badge-new">
@@ -286,6 +286,13 @@
       <router-link to="/products" class="back-link">العودة للمنتجات</router-link>
     </div>
   </div>
+
+  <ImageGallery
+    :visible="showGallery"
+    :images="galleryImages"
+    :startIndex="galleryStartIndex"
+    @update:visible="showGallery = $event"
+  />
 </template>
 
 <script setup>
@@ -296,6 +303,7 @@ import { useCartStore } from '../stores/cartStore'
 import { useFavoriteStore } from '../stores/favoriteStore'
 import { useCurrency } from '../composables/useCurrency'
 import ProductCard from '../components/product/ProductCard.vue'
+import ImageGallery from '../components/product/ImageGallery.vue'
 
 const route = useRoute()
 const productStore = useProductStore()
@@ -317,6 +325,22 @@ const activeImage = computed(() => {
 
 const selectedMonths = ref(3)
 const selectedDownPayment = ref(0)
+
+const showGallery = ref(false)
+const galleryStartIndex = ref(0)
+
+const galleryImages = computed(() => {
+  if (!product.value) return []
+  if (product.value.images && product.value.images.length > 0) {
+    return product.value.images
+  }
+  return product.value.image ? [product.value.image] : []
+})
+
+function openGallery() {
+  galleryStartIndex.value = activeImageIndex.value
+  showGallery.value = true
+}
 
 const calcResult = computed(() => {
   if (!product.value) return null
@@ -423,6 +447,7 @@ function addToCart() {
   margin-bottom: 12px;
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
+  cursor: pointer;
 }
 
 .main-image {
