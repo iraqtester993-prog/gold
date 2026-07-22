@@ -74,6 +74,12 @@ const routes = [
     meta: { title: 'طلب تقسيط' }
   },
   {
+    path: '/installment-requests',
+    name: 'installment-requests',
+    component: () => import('../views/InstallmentRequestsPage.vue'),
+    meta: { title: 'طلبات التقسيط' }
+  },
+  {
     path: '/orders',
     name: 'orders',
     component: () => import('../views/OrdersPage.vue'),
