@@ -1,96 +1,60 @@
 <template>
   <section class="hero-slider">
     <div class="slides-wrapper" :style="{ transform: `translateX(${currentSlide * 100}%)` }">
-      <div v-for="(slide, i) in slides" :key="i" class="slide" :style="{ background: slide.bg }">
-        <div class="slide-content container">
-          <div class="slide-text">
-            <span class="slide-badge">{{ slide.badge }}</span>
-            <h1 class="slide-title">{{ slide.title }}</h1>
+      <div v-for="(slide, i) in slides" :key="i" class="slide">
+        <img :src="slide.image" :alt="slide.title" class="slide-bg" />
+        <div class="slide-overlay">
+          <div class="slide-content">
+            <h2 class="slide-title">{{ slide.title }}</h2>
             <p class="slide-desc">{{ slide.desc }}</p>
-            <div class="slide-price" v-if="slide.price">
-              <span class="old-price">{{ formatCurrency(slide.oldPrice) }}</span>
-              <span class="new-price">{{ formatCurrency(slide.price) }}</span>
-            </div>
-            <router-link :to="slide.link" class="btn btn-primary btn-lg">
-              {{ slide.btnText }}
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="flip-rtl">
+            <button class="btn-order" @click="$router.push(slide.link)">
+              اطلب الآن
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="flip-rtl">
                 <line x1="5" y1="12" x2="19" y2="12"/>
                 <polyline points="12 5 19 12 12 19"/>
               </svg>
-            </router-link>
-          </div>
-          <div class="slide-image">
-            <img :src="slide.image" :alt="slide.title" />
+            </button>
           </div>
         </div>
       </div>
     </div>
 
-    <div class="slider-controls">
-      <button class="slider-btn prev" @click="prevSlide">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <polyline points="15 18 9 12 15 6"/>
-        </svg>
-      </button>
-      <div class="slider-dots">
-        <button
-          v-for="(_, i) in slides"
-          :key="i"
-          class="dot"
-          :class="{ active: currentSlide === i }"
-          @click="currentSlide = i"
-        />
-      </div>
-      <button class="slider-btn next" @click="nextSlide">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <polyline points="9 18 15 12 9 6"/>
-        </svg>
-      </button>
+    <div class="slider-dots">
+      <button
+        v-for="(_, i) in slides"
+        :key="i"
+        class="dot"
+        :class="{ active: currentSlide === i }"
+        @click="currentSlide = i"
+      />
     </div>
   </section>
 </template>
 
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue'
-import { useCurrency } from '../../composables/useCurrency'
 
-const { formatCurrency } = useCurrency()
 const currentSlide = ref(0)
 let timer = null
 
 const slides = [
   {
-    badge: 'عرض خاص',
-    title: 'iPhone 15 Pro Max',
-    desc: 'الأحدث من آبل - تصميم تيتانيوم مع شريحة A17 Pro',
-    price: 1800000,
-    oldPrice: 2000000,
-    image: 'https://images.unsplash.com/photo-1695048133142-1a20484d2569?w=600',
-    link: '/products/2',
-    btnText: 'تسوق الآن',
-    bg: 'linear-gradient(135deg, #0a1628 0%, #1a2a4a 100%)'
+    title: 'عروض التقسيط على جميع الأجهزة',
+    desc: 'اشترِ الآن وادفع على أقساط مريحة بدون فوائد',
+    image: 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=800&q=80',
+    link: '/products'
   },
   {
-    badge: 'جديد',
+    title: 'iPhone 15 Pro Max - الأحدث من آبل',
+    desc: 'تصميم تيتانيوم فاخر مع شريحة A17 Pro',
+    image: 'https://images.unsplash.com/photo-1695048133142-1a20484d2569?w=800&q=80',
+    link: '/products/2'
+  },
+  {
     title: 'Samsung Galaxy S24 Ultra',
-    desc: 'كامل المواصفات - كاميرا 200MP - معالج Snapdragon 8 Gen 3',
-    price: 1500000,
-    oldPrice: 1800000,
-    image: 'https://images.unsplash.com/photo-1610945415295-d9bbf067e59c?w=600',
-    link: '/products/1',
-    btnText: 'التفاصيل',
-    bg: 'linear-gradient(135deg, #0f2035 0%, #1a3050 100%)'
-  },
-  {
-    badge: 'الأكثر مبيعاً',
-    title: 'MacBook Pro M3',
-    desc: 'أداء خارق للمحترفين - شريحة M3 الجديدة',
-    price: 2500000,
-    oldPrice: 2800000,
-    image: 'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=600',
-    link: '/products/3',
-    btnText: 'اطلب الآن',
-    bg: 'linear-gradient(135deg, #0a1628 0%, #162040 100%)'
+    desc: 'كاميرا 200MP - معالج Snapdragon 8 Gen 3',
+    image: 'https://images.unsplash.com/photo-1610945415295-d9bbf067e59c?w=800&q=80',
+    link: '/products/1'
   }
 ]
 
@@ -98,17 +62,8 @@ function nextSlide() {
   currentSlide.value = (currentSlide.value + 1) % slides.length
 }
 
-function prevSlide() {
-  currentSlide.value = (currentSlide.value - 1 + slides.length) % slides.length
-}
-
-onMounted(() => {
-  timer = setInterval(nextSlide, 5000)
-})
-
-onUnmounted(() => {
-  clearInterval(timer)
-})
+onMounted(() => { timer = setInterval(nextSlide, 4000) })
+onUnmounted(() => { clearInterval(timer) })
 </script>
 
 <style scoped>
@@ -116,153 +71,110 @@ onUnmounted(() => {
   position: relative;
   overflow: hidden;
   border-radius: var(--radius-lg);
-  margin-bottom: 32px;
+  margin-bottom: 24px;
+  aspect-ratio: 16 / 7;
 }
 
 .slides-wrapper {
   display: flex;
-  transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transition: transform 0.5s ease;
+  height: 100%;
 }
 
 .slide {
   min-width: 100%;
-  padding: 48px 0;
+  position: relative;
+}
+
+.slide-bg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.slide-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.1) 60%);
+  display: flex;
+  align-items: flex-end;
+  padding: 20px;
 }
 
 .slide-content {
-  display: flex;
-  align-items: center;
-  gap: 40px;
-}
-
-.slide-text {
-  flex: 1;
-}
-
-.slide-badge {
-  display: inline-block;
-  padding: 4px 14px;
-  background: var(--color-gold);
-  color: var(--bg-primary);
-  font-size: 0.8rem;
-  font-weight: 700;
-  border-radius: var(--radius-full);
-  margin-bottom: 16px;
+  color: #fff;
+  max-width: 100%;
 }
 
 .slide-title {
-  font-size: 2.2rem;
-  font-weight: 900;
-  color: var(--text-primary);
-  margin-bottom: 12px;
-  line-height: 1.2;
+  font-size: 1.15rem;
+  font-weight: 800;
+  margin-bottom: 4px;
+  line-height: 1.3;
 }
 
 .slide-desc {
-  color: var(--text-secondary);
-  font-size: 1rem;
-  margin-bottom: 20px;
-  max-width: 400px;
+  font-size: 0.8rem;
+  opacity: 0.85;
+  margin-bottom: 12px;
+  line-height: 1.4;
 }
 
-.slide-price {
-  display: flex;
+.btn-order {
+  display: inline-flex;
   align-items: center;
-  gap: 16px;
-  margin-bottom: 24px;
-}
-
-.old-price {
-  text-decoration: line-through;
-  color: var(--text-muted);
-  font-size: 1.1rem;
-}
-
-.new-price {
-  color: var(--color-gold);
-  font-size: 1.6rem;
-  font-weight: 800;
-}
-
-.slide-image {
-  flex: 0 0 300px;
-  display: flex;
-  justify-content: center;
-}
-
-.slide-image img {
-  max-height: 260px;
-  object-fit: contain;
-  border-radius: var(--radius-md);
-}
-
-.slider-controls {
-  position: absolute;
-  bottom: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.slider-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 36px;
-  height: 36px;
+  gap: 6px;
+  padding: 8px 20px;
+  background: var(--color-gold);
+  color: var(--bg-primary);
+  border: none;
   border-radius: var(--radius-full);
-  background: var(--bg-card);
-  color: var(--text-primary);
-  border: 1px solid var(--border-light);
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
   transition: all var(--transition-fast);
 }
 
-.slider-btn:hover {
-  background: var(--color-gold);
-  color: var(--bg-primary);
-  border-color: var(--color-gold);
+.btn-order:active {
+  transform: scale(0.96);
+}
+
+.flip-rtl {
+  transform: scaleX(-1);
 }
 
 .slider-dots {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
   display: flex;
-  gap: 8px;
+  gap: 6px;
 }
 
 .dot {
-  width: 8px;
-  height: 8px;
+  width: 6px;
+  height: 6px;
   border-radius: var(--radius-full);
-  background: var(--text-muted);
+  background: rgba(255,255,255,0.5);
+  border: none;
   transition: all var(--transition-fast);
+  padding: 0;
+  cursor: pointer;
 }
 
 .dot.active {
-  width: 24px;
+  width: 20px;
   background: var(--color-gold);
 }
 
-@media (max-width: 768px) {
-  .slide-content {
-    flex-direction: column;
-    text-align: center;
+@media (max-width: 480px) {
+  .hero-slider {
+    aspect-ratio: 16 / 8;
   }
-
   .slide-title {
-    font-size: 1.5rem;
-  }
-
-  .slide-image {
-    flex: none;
-  }
-
-  .slide-image img {
-    max-height: 160px;
-  }
-
-  .slide-price {
-    justify-content: center;
+    font-size: 1rem;
   }
 }
 </style>

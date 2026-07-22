@@ -85,6 +85,7 @@ function addToCart() {
   align-items: center;
   justify-content: center;
   overflow: hidden;
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
 }
 
 .product-image img {
@@ -127,6 +128,13 @@ function addToCart() {
 .product-card:hover .quick-add {
   opacity: 1;
   transform: translateY(0);
+}
+
+@media (max-width: 768px) {
+  .quick-add {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .product-info {

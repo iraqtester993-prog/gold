@@ -36,19 +36,13 @@ onMounted(() => {
 
 <style>
 .main-content {
-  padding-top: var(--header-height);
+  padding-top: 56px;
+  padding-bottom: 72px;
   min-height: 100vh;
-  padding-bottom: 80px;
 }
 
 .main-content.no-header {
   padding-top: 0;
   padding-bottom: 0;
-}
-
-@media (min-width: 769px) {
-  .main-content {
-    padding-bottom: 0;
-  }
 }
 </style>

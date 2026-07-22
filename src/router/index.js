@@ -5,25 +5,25 @@ const routes = [
     path: '/',
     name: 'splash',
     component: () => import('../views/SplashScreen.vue'),
-    meta: { title: 'البداية', hideNav: true }
+    meta: { title: 'البداية' }
   },
   {
     path: '/welcome',
     name: 'welcome',
     component: () => import('../views/WelcomePage.vue'),
-    meta: { title: 'مرحباً', hideNav: true }
+    meta: { title: 'مرحباً' }
   },
   {
     path: '/login',
     name: 'login',
     component: () => import('../views/LoginPage.vue'),
-    meta: { title: 'تسجيل الدخول', hideNav: true, guest: true }
+    meta: { title: 'تسجيل الدخول', guest: true }
   },
   {
     path: '/register',
     name: 'register',
     component: () => import('../views/RegisterPage.vue'),
-    meta: { title: 'إنشاء حساب', hideNav: true, guest: true }
+    meta: { title: 'إنشاء حساب', guest: true }
   },
   {
     path: '/home',
@@ -41,7 +41,7 @@ const routes = [
     path: '/products/:id',
     name: 'product-detail',
     component: () => import('../views/ProductDetailPage.vue'),
-    meta: { title: 'تفاصيل المنتج', hideNav: true }
+    meta: { title: 'تفاصيل المنتج' }
   },
   {
     path: '/category/:slug',
@@ -53,25 +53,25 @@ const routes = [
     path: '/categories',
     name: 'categories',
     component: () => import('../views/CategoriesPage.vue'),
-    meta: { title: 'التصنيفات' }
+    meta: { title: 'الأقسام' }
   },
   {
     path: '/cart',
     name: 'cart',
     component: () => import('../views/CartPage.vue'),
-    meta: { title: 'سلة المشتريات', hideNav: true }
+    meta: { title: 'سلة المشتريات' }
   },
   {
     path: '/checkout',
     name: 'checkout',
     component: () => import('../views/CheckoutPage.vue'),
-    meta: { title: 'إتمام الطلب', hideNav: true }
+    meta: { title: 'إتمام الطلب' }
   },
   {
     path: '/installment-request',
     name: 'installment-request',
     component: () => import('../views/InstallmentRequestPage.vue'),
-    meta: { title: 'طلب تقسيط', hideNav: true }
+    meta: { title: 'طلب تقسيط' }
   },
   {
     path: '/orders',
@@ -83,7 +83,7 @@ const routes = [
     path: '/orders/:id',
     name: 'order-detail',
     component: () => import('../views/OrderDetailPage.vue'),
-    meta: { title: 'تفاصيل الطلب', hideNav: true }
+    meta: { title: 'تفاصيل الطلب' }
   },
   {
     path: '/contracts',
@@ -95,25 +95,25 @@ const routes = [
     path: '/contracts/:id',
     name: 'contract-detail',
     component: () => import('../views/ContractDetailPage.vue'),
-    meta: { title: 'تفاصيل العقد', hideNav: true }
+    meta: { title: 'تفاصيل العقد' }
   },
   {
     path: '/deductions',
     name: 'deductions',
     component: () => import('../views/DeductionsPage.vue'),
-    meta: { title: 'سجل الاستقطاعات', hideNav: true }
+    meta: { title: 'سجل الاستقطاعات' }
   },
   {
     path: '/notifications',
     name: 'notifications',
     component: () => import('../views/NotificationsPage.vue'),
-    meta: { title: 'الإشعارات', hideNav: true }
+    meta: { title: 'الإشعارات' }
   },
   {
     path: '/favorites',
     name: 'favorites',
     component: () => import('../views/FavoritesPage.vue'),
-    meta: { title: 'المفضلة', hideNav: true }
+    meta: { title: 'المفضلة' }
   },
   {
     path: '/profile',
@@ -125,19 +125,19 @@ const routes = [
     path: '/profile/edit',
     name: 'profile-edit',
     component: () => import('../views/ProfileEditPage.vue'),
-    meta: { title: 'تعديل الملف', hideNav: true }
+    meta: { title: 'تعديل الملف' }
   },
   {
     path: '/customer-service',
     name: 'customer-service',
     component: () => import('../views/CustomerServicePage.vue'),
-    meta: { title: 'خدمة العملاء', hideNav: true }
+    meta: { title: 'خدمة العملاء' }
   },
   {
     path: '/settings',
     name: 'settings',
     component: () => import('../views/SettingsPage.vue'),
-    meta: { title: 'الإعدادات', hideNav: true }
+    meta: { title: 'الإعدادات' }
   }
 ]
 
